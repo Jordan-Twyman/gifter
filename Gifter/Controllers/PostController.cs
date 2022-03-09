@@ -31,6 +31,16 @@ namespace Gifter.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
+            var post = _postRepository.GetById(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+            return Ok(post);
+        }
+        [HttpGet("/GetPostIdWithComments/{id}")]
+        public IActionResult GetPostIdWithComments(int id)
+        {
             var post = _postRepository.GetPostIdWithComments(id);
             if (post == null)
             {
@@ -64,5 +74,7 @@ namespace Gifter.Controllers
             _postRepository.Delete(id);
             return NoContent();
         }
+
+        
     }
 }

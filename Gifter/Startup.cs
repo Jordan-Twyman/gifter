@@ -28,6 +28,8 @@ namespace Gifter
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IUserProfileRepository, UserProfileRepository>();
+
 
 
             services.AddControllers();
