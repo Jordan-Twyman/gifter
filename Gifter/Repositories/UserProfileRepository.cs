@@ -134,7 +134,7 @@ namespace Gifter.Repositories
 
                         var existingPost = posts.FirstOrDefault(p => p.Id == postId);
 
-                        if (DbUtils.IsNotDbNull(reader, "PostUserProfileId"))
+                        if (DbUtils.IsNotDbNull(reader, "PostUserProfileId") && !posts.Contains(existingPost))
                         {
 
                             user.Posts.Add(new Post()
@@ -154,10 +154,10 @@ namespace Gifter.Repositories
                          
 
                         }
-                        foreach (var post in posts)
+                        /*foreach (var post in posts)*/
                             if (DbUtils.IsNotDbNull(reader, "CommentId"))
                             {
-                                post.Comments.Add(new Comment()
+                                existingPost.Comments.Add(new Comment()
                                 {
                                     Id = DbUtils.GetInt(reader, "CommentId"),
                                     Message = DbUtils.GetString(reader, "Message"),
