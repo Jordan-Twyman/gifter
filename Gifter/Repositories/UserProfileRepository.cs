@@ -154,10 +154,10 @@ namespace Gifter.Repositories
                          
 
                         }
-                        /*foreach (var post in posts)*/
+                        foreach (var post in posts)
                             if (DbUtils.IsNotDbNull(reader, "CommentId"))
                             {
-                                existingPost.Comments.Add(new Comment()
+                                post.Comments.Add(new Comment()
                                 {
                                     Id = DbUtils.GetInt(reader, "CommentId"),
                                     Message = DbUtils.GetString(reader, "Message"),
