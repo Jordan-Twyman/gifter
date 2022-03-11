@@ -75,6 +75,12 @@ namespace Gifter.Controllers
             return NoContent();
         }
 
-        
+        [HttpGet("search")]
+        public IActionResult Search(string q, bool sortDesc, DateTime since)
+        {
+            return Ok(_postRepository.Search(q, sortDesc, since));
+        }
+          
+
     }
 }
