@@ -1,13 +1,18 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PostContext } from "../providers/PostProvider";
 import Post from "./Post";
 
 const PostList = () => {
-  const { posts, getAllPosts } = useContext(PostContext);
+  const { posts, getAllPosts, searchPosts, searchTerms } = useContext(PostContext);
+  const [ filteredPosts, setFiltered ] = useState([])
 
   useEffect(() => {
-    getAllPosts();
+    getAllPosts()
   }, []);
+
+  useEffect(() => {
+   searchTerms !== "" ? searchPosts(searchTerms) : getAllPosts();
+  }, [searchTerms, posts])
 
   return (
     <div className="container">

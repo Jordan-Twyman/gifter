@@ -16,8 +16,7 @@ namespace Gifter.Models
 
         public string Caption { get; set; }
 
-        [Required]
-        public DateTime? DateCreated { get; set; }
+        public DateTime DateCreated { get; set; }
 
         [Required]
         public int UserProfileId { get; set; }

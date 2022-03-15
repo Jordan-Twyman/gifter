@@ -85,7 +85,14 @@ namespace Gifter.Repositories
                                 Id = DbUtils.GetInt(reader, "CommentId"),
                                 Message = DbUtils.GetString(reader, "Message"),
                                 PostId = postId,
-                                UserProfileId = DbUtils.GetInt(reader, "CommentUserProfileId")
+                                UserProfileId = DbUtils.GetInt(reader, "CommentUserProfileId"),
+                                UserProfile = new UserProfile()
+                                {
+                                    Name = DbUtils.GetString(reader, "Name"),
+                                    Email = DbUtils.GetString(reader, "Email"),
+                                    DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
+                                    ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
+                                }
                             });
                         }
                     }
@@ -173,7 +180,14 @@ namespace Gifter.Repositories
                                 Id = DbUtils.GetInt(reader, "CommentId"),
                                 Message = DbUtils.GetString(reader, "Message"),
                                 PostId = DbUtils.GetInt(reader, "PostId"),
-                                UserProfileId = DbUtils.GetInt(reader, "CommentUserProfileId")
+                                UserProfileId = DbUtils.GetInt(reader, "CommentUserProfileId"),
+                                UserProfile = new UserProfile()
+                                {
+                                    Name = DbUtils.GetString(reader, "Name"),
+                                    Email = DbUtils.GetString(reader, "Email"),
+                                    DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
+                                    ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
+                                }
                             });
                         }
                     }
@@ -199,7 +213,7 @@ namespace Gifter.Repositories
 
                     DbUtils.AddParameter(cmd, "@Title", post.Title);
                     DbUtils.AddParameter(cmd, "@Caption", post.Caption);
-                    DbUtils.AddParameter(cmd, "@DateCreated", post.DateCreated);
+                    DbUtils.AddParameter(cmd, "@DateCreated", DateTime.Now);
                     DbUtils.AddParameter(cmd, "@ImageUrl", post.ImageUrl);
                     DbUtils.AddParameter(cmd, "@UserProfileId", post.UserProfileId);
 
@@ -250,7 +264,7 @@ namespace Gifter.Repositories
             }
         }
 
-        public List<Post> Search(string criterion, bool sortDescending, DateTime since)
+        public List<Post> Search(string criterion, bool sortDescending)
         {
             using (var conn = Connection)
             {
@@ -265,7 +279,7 @@ namespace Gifter.Repositories
                         up.ImageUrl AS UserProfileImageUrl
                     FROM Post p 
                         LEFT JOIN UserProfile up ON p.UserProfileId = up.id
-                    WHERE p.Title LIKE @Criterion OR p.Caption LIKE @Criterion AND p.DateCreated = @Since";
+                    WHERE p.Title LIKE @Criterion OR p.Caption LIKE @Criterion";
 
                     if (sortDescending)
                     {
@@ -278,7 +292,6 @@ namespace Gifter.Repositories
                   
                     cmd.CommandText = sql;
                     DbUtils.AddParameter(cmd, "@Criterion", $"%{criterion}%");
-                    DbUtils.AddParameter(cmd, "@Since", since);
 
                     var reader = cmd.ExecuteReader();
 

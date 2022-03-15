@@ -1,21 +1,18 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { PostContext } from "../providers/PostProvider";
+import Post from "./Post";
 
 export const PostForm = () => {
     const {addPost} = useContext(PostContext);
 
-    let currentTimestamp = Date.now();
-
-    let date = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(currentTimestamp)
+  
 
     const [post, setPost] = useState({
         userProfileId: 1,
         title:"", 
         imageUrl:"",
-        caption:"",
-        dateCreated: date
-        });
+        caption:""        
+    });
 
         
 
@@ -28,8 +25,13 @@ export const PostForm = () => {
     const handleClickSavePost = (e) => {
         e.preventDefault();
 
-        addPost(post)
+        addPost(post);
+
+        post.title = ""
+        post.caption = ""
+        post.imageUrl = ""
         
+       
     }
 
     return (

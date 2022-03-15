@@ -11,6 +11,9 @@ const Post = ({ post }) => {
           <strong>{post.title}</strong>
         </p>
         <p>{post.caption}</p>
+        <ul>
+        {post.comments.map(pc => <li key={pc.id}> {pc.userProfile.name}: {pc.message}  </li>)}
+        </ul>
       </CardBody>
     </Card>
   );
