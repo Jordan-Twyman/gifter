@@ -14,7 +14,7 @@ export const PostProvider = (props) => {
   };
 
   const searchPosts = () => {
-    return fetch(`https://localhost:44325/api/Post/search?q=${searchTerms}`)
+    return fetch(`https://localhost:44325/api/Post/search?q=${searchTerms}&sortDesc=true`)
       .then((res) => res.json())
       .then(setPosts);
   };
