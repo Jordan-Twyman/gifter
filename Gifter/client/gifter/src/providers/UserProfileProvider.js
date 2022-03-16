@@ -11,8 +11,12 @@ export const UserProfileProvider = (props) => {
       .then(setUserProfiles);
   };
 
+  const getUser = (id) => {
+    return fetch(`https://localhost:44325/GetUserProfileWithPosts/${id}`).then((res) => res.json());
+};
+
   return (
-    <UserProfileContext.Provider value={{ userProfiles, getAllUserProfiles }}>
+    <UserProfileContext.Provider value={{ userProfiles, getAllUserProfiles, getUser }}>
       {props.children}
     </UserProfileContext.Provider>
   );

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { PostContext } from "../providers/PostProvider";
 import Post from "./Post";
+import { useNavigate } from "react-router-dom";
 
 export const PostForm = () => {
     const {addPost} = useContext(PostContext);
@@ -14,7 +15,7 @@ export const PostForm = () => {
         caption:""        
     });
 
-        
+    const navigate = useNavigate();
 
     const handleControlledInputChange = (e) => {
         const newPost = { ...post }
@@ -25,13 +26,10 @@ export const PostForm = () => {
     const handleClickSavePost = (e) => {
         e.preventDefault();
 
-        addPost(post);
+        addPost(post).then(() => navigate('/'));
 
-        post.title = ""
-        post.caption = ""
-        post.imageUrl = ""
         
-       
+        
     }
 
     return (

@@ -49,3 +49,6 @@ C:\Users\jtwym\workspace\back-end\book-2\Gifter\Gifter\obj\Debug\net5.0\Gifter.d
 C:\Users\jtwym\workspace\back-end\book-2\Gifter\Gifter\obj\Debug\net5.0\ref\Gifter.dll
 C:\Users\jtwym\workspace\back-end\book-2\Gifter\Gifter\obj\Debug\net5.0\Gifter.pdb
 C:\Users\jtwym\workspace\back-end\book-2\Gifter\Gifter\obj\Debug\net5.0\Gifter.genruntimeconfig.cache
+C:\Users\jtwym\workspace\back-end\book-2\Gifter\Gifter\bin\Debug\net5.0\client\gifter\package-lock.json
+C:\Users\jtwym\workspace\back-end\book-2\Gifter\Gifter\bin\Debug\net5.0\client\gifter\package.json
+C:\Users\jtwym\workspace\back-end\book-2\Gifter\Gifter\bin\Debug\net5.0\client\gifter\public\manifest.json

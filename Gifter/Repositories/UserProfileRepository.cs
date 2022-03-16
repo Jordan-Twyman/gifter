@@ -143,6 +143,13 @@ namespace Gifter.Repositories
                                 DateCreated = DbUtils.GetDateTime(reader, "PostDateCreated"),
                                 ImageUrl = DbUtils.GetString(reader, "PostImageUrl"),
                                 UserProfileId = id,
+                                UserProfile = new UserProfile()
+                                {
+                                    Name = DbUtils.GetString(reader, "Name"),
+                                    Email = DbUtils.GetString(reader, "Email"),
+                                    DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
+                                    ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
+                                },
 
                                 Comments = new List<Comment>()
 
@@ -152,18 +159,30 @@ namespace Gifter.Repositories
                          
 
                         }
+
                         foreach (var post in posts)
+                        {
+                           
                             
-                            if (DbUtils.IsNotDbNull(reader, "CommentId") && !posts.Contains(posts.FirstOrDefault(p => p.Id != DbUtils.GetInt(reader, "CommentPostId"))))
+                            if (DbUtils.IsNotDbNull(reader, "CommentId") && post.Id == postId)
                             {
                                 post.Comments.Add(new Comment()
                                 {
                                     Id = DbUtils.GetInt(reader, "CommentId"),
                                     Message = DbUtils.GetString(reader, "Message"),
-                                    PostId = DbUtils.GetInt(reader, "CommentPostId"),
-                                UserProfileId = id
+                                    PostId = postId,
+                                    UserProfileId = id,
+                                    UserProfile = new UserProfile()
+                                    {
+                                        Name = DbUtils.GetString(reader, "Name"),
+                                        Email = DbUtils.GetString(reader, "Email"),
+                                        DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
+                                        ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
+                                    }
                                 });
                             }
+                        
+                        }
 
                     }
                    

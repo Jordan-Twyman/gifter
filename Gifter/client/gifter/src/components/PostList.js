@@ -5,6 +5,7 @@ import Post from "./Post";
 const PostList = () => {
   const { posts, getAllPosts, searchPosts, searchTerms } = useContext(PostContext);
   const [ filteredPosts, setFiltered ] = useState([])
+  const { setSearchTerms } = useContext(PostContext)
 
   useEffect(() => {
     getAllPosts()
@@ -15,6 +16,13 @@ const PostList = () => {
   }, [searchTerms, posts])
 
   return (
+    <>
+    <big className="postSeach">
+      <input type="text"
+        className="input--wide"
+        onKeyUp={(event) => setSearchTerms(event.target.value)}
+        placeholder="Search for a post... " /></big>
+    
     <div className="container">
       <div className="row justify-content-center">
         <div className="cards-column">
@@ -24,6 +32,7 @@ const PostList = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
