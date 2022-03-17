@@ -34,8 +34,15 @@ export const PostProvider = (props) => {
     .then(getAllPosts)
   };
 
+  const deletePost = (post) => {
+    return fetch(`https://localhost:44325/api/post/${post.id}`, {
+        method: "DELETE"
+    })
+        
+  }
+
   return (
-    <PostContext.Provider value={{ posts,getPost, getAllPosts, addPost, searchTerms, setSearchTerms, searchPosts }}>
+    <PostContext.Provider value={{ posts, getPost, deletePost, getAllPosts, addPost, searchTerms, setSearchTerms, searchPosts }}>
       {props.children}
     </PostContext.Provider>
   );

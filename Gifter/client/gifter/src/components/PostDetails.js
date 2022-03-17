@@ -13,6 +13,9 @@ const PostDetails = () => {
     getPost(id).then(setPost);
   }, []);
 
+ 
+
+
   if (!post) {
     return null;
   }

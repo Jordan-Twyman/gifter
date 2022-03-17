@@ -95,10 +95,12 @@ namespace Gifter.Repositories
                       up.Id AS UserProfileId, up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated,
                        up.ImageUrl AS UserProfileImageUrl,
                        c.Id AS CommentId, c.Message, c.UserProfileId AS CommentUserProfileId, c.PostId AS CommentPostId
+                        
 
                   FROM UserProfile up
                        LEFT JOIN Post p ON p.UserProfileId = up.id
                         LEFT JOIN Comment c on c.PostId = p.id
+                        LEFT JOIN Comment cu on cu.UserProfileId = up.id
                        WHERE up.Id = @Id
               ORDER BY up.DateCreated";
 
@@ -145,6 +147,7 @@ namespace Gifter.Repositories
                                 UserProfileId = id,
                                 UserProfile = new UserProfile()
                                 {
+                                    Id = id,
                                     Name = DbUtils.GetString(reader, "Name"),
                                     Email = DbUtils.GetString(reader, "Email"),
                                     DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
@@ -174,7 +177,8 @@ namespace Gifter.Repositories
                                     UserProfileId = id,
                                     UserProfile = new UserProfile()
                                     {
-                                        Name = DbUtils.GetString(reader, "Name"),
+                                        Id = DbUtils.GetInt(reader, "CommentUserId"),
+                                        Name = DbUtils.GetString(reader, "CommentUserName"),
                                         Email = DbUtils.GetString(reader, "Email"),
                                         DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
                                         ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),

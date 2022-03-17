@@ -23,7 +23,7 @@ namespace Gifter.Repositories
                 SELECT p.Id AS PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated, 
                        p.ImageUrl AS PostImageUrl, p.UserProfileId as PostUserProfileId,
 
-                       up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated, 
+                       up.Name as UserProfileName, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated, 
                        up.ImageUrl AS UserProfileImageUrl
                   FROM Post p 
                        LEFT JOIN UserProfile up ON p.UserProfileId = up.id
@@ -54,13 +54,15 @@ namespace Gifter.Repositories
                 SELECT p.Id AS PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated,
                        p.ImageUrl AS PostImageUrl, p.UserProfileId AS PostUserProfileId,
 
-                       up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated,
+                       up.Id as UserProfileId, up.Name as UserProfileName, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated,
                        up.ImageUrl AS UserProfileImageUrl,
 
-                       c.Id AS CommentId, c.Message, c.UserProfileId AS CommentUserProfileId
+                       c.Id AS CommentId, c.Message, c.UserProfileId AS CommentUserProfileId,
+                       cup.Name as CommentUserName
                   FROM Post p
                        LEFT JOIN UserProfile up ON p.UserProfileId = up.id
                        LEFT JOIN Comment c on c.PostId = p.id
+                        LEFT JOIN UserProfile cup ON c.UserProfileId = cup.id
               ORDER BY p.DateCreated";
 
                     var reader = cmd.ExecuteReader();
@@ -88,7 +90,8 @@ namespace Gifter.Repositories
                                 UserProfileId = DbUtils.GetInt(reader, "CommentUserProfileId"),
                                 UserProfile = new UserProfile()
                                 {
-                                    Name = DbUtils.GetString(reader, "Name"),
+                                    Id = DbUtils.GetInt(reader, "CommentUserProfileId"),
+                                    Name = DbUtils.GetString(reader, "CommentUserName"),
                                     Email = DbUtils.GetString(reader, "Email"),
                                     DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
                                     ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
@@ -115,7 +118,7 @@ namespace Gifter.Repositories
                           SELECT p.Id AS PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated,
                        p.ImageUrl AS PostImageUrl, p.UserProfileId AS PostUserProfileId,
 
-                       up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated,
+                       up.Name  as UserProfileName, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated,
                        up.ImageUrl AS UserProfileImageUrl
 
                        FROM Post p
@@ -149,14 +152,15 @@ namespace Gifter.Repositories
                     cmd.CommandText = @"
                 SELECT p.Id AS PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated,
                        p.ImageUrl AS PostImageUrl, p.UserProfileId AS PostUserProfileId,
-
-                       up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated,
+                       up.Name as UserProfileName, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated,
                        up.ImageUrl AS UserProfileImageUrl,
-
-                       c.Id AS CommentId, c.Message, c.UserProfileId AS CommentUserProfileId
+                       c.Id AS CommentId, c.Message, c.UserProfileId AS CommentUserProfileId,
+                       cup.Name as CommentUserName
+                        
                   FROM Post p
                        LEFT JOIN UserProfile up ON p.UserProfileId = up.id
                        LEFT JOIN Comment c on c.PostId = p.id
+                       LEFT JOIN UserProfile cup on c.UserProfileId = cup.Id
                        WHERE p.Id = @Id
               ORDER BY p.DateCreated";
 
@@ -183,7 +187,8 @@ namespace Gifter.Repositories
                                 UserProfileId = DbUtils.GetInt(reader, "CommentUserProfileId"),
                                 UserProfile = new UserProfile()
                                 {
-                                    Name = DbUtils.GetString(reader, "Name"),
+                                    Id = DbUtils.GetInt(reader, "CommentUserProfileId"),
+                                    Name = DbUtils.GetString(reader, "CommentUserName"),
                                     Email = DbUtils.GetString(reader, "Email"),
                                     DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
                                     ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
@@ -263,7 +268,7 @@ namespace Gifter.Repositories
                 }
             }
         }
-
+        
         public List<Post> Search(string criterion, bool sortDescending)
         {
             using (var conn = Connection)
@@ -275,7 +280,7 @@ namespace Gifter.Repositories
                         @"SELECT p.Id AS PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated, 
                         p.ImageUrl AS PostImageUrl, p.UserProfileId as PostUserProfileId,
 
-                        up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated, 
+                        up.Name as UserProfileName, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated, 
                         up.ImageUrl AS UserProfileImageUrl
                     FROM Post p 
                         LEFT JOIN UserProfile up ON p.UserProfileId = up.id
@@ -320,7 +325,7 @@ namespace Gifter.Repositories
                 UserProfileId = DbUtils.GetInt(reader, "PostUserProfileId"),
                 UserProfile = new UserProfile()
                 {
-                    Name = DbUtils.GetString(reader, "Name"),
+                    Name = DbUtils.GetString(reader, "UserProfileName"),
                     Email = DbUtils.GetString(reader, "Email"),
                     DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
                     ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),

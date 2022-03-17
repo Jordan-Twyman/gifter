@@ -4,7 +4,6 @@ import Post from "./Post";
 
 const PostList = () => {
   const { posts, getAllPosts, searchPosts, searchTerms } = useContext(PostContext);
-  const [ filteredPosts, setFiltered ] = useState([])
   const { setSearchTerms } = useContext(PostContext)
 
   useEffect(() => {
@@ -13,7 +12,7 @@ const PostList = () => {
 
   useEffect(() => {
    searchTerms !== "" ? searchPosts(searchTerms) : getAllPosts();
-  }, [searchTerms, posts])
+  })
 
   return (
     <>

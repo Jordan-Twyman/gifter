@@ -21,6 +21,11 @@ namespace Gifter.Models
         public DateTime DateCreated { get; set; }
         public List<Post> Posts { get; set; }
 
+        public static int CURRENT_USER_PROFILE_ID
+        {
+            get { return 1; }
+        }
+
 
 
     }
