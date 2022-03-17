@@ -9,12 +9,8 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <UserProfileProvider>
-        <PostProvider>
           <Header />
           <ApplicationViews />
-        </PostProvider>
-        </UserProfileProvider>
       </Router>
     </div>
   );

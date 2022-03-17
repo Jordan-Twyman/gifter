@@ -8,11 +8,15 @@ import {
 import { PostForm } from "./PostForm";
 import PostDetails from "./PostDetails";
 import UserPosts from "./UserPosts";
+import { PostProvider } from "../providers/PostProvider";
+import { UserProfileProvider } from "../providers/UserProfileProvider";
 
 const ApplicationViews = () => {
   return (
+    <UserProfileProvider>
+    <PostProvider>
     <Routes>
-
+       
 
       <Route path="/" element={<PostList />} />
       
@@ -26,6 +30,8 @@ const ApplicationViews = () => {
       <Route path="/users/:id" element={<UserPosts />} />
 
     </Routes>
+     </PostProvider>
+     </UserProfileProvider>
   );
 };
 
