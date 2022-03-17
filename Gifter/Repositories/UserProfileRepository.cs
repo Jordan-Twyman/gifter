@@ -89,18 +89,18 @@ namespace Gifter.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                SELECT  p.Id As PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated,
+               SELECT p.Id AS PostId, p.Title, p.Caption, p.DateCreated AS PostDateCreated,
                        p.ImageUrl AS PostImageUrl, p.UserProfileId AS PostUserProfileId,
 
-                      up.Id AS UserProfileId, up.Name, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated,
+                       up.Id as UserProfileId, up.Name as UserProfileName, up.Bio, up.Email, up.DateCreated AS UserProfileDateCreated,
                        up.ImageUrl AS UserProfileImageUrl,
-                       c.Id AS CommentId, c.Message, c.UserProfileId AS CommentUserProfileId, c.PostId AS CommentPostId
-                        
 
-                  FROM UserProfile up
-                       LEFT JOIN Post p ON p.UserProfileId = up.id
-                        LEFT JOIN Comment c on c.PostId = p.id
-                        LEFT JOIN Comment cu on cu.UserProfileId = up.id
+                       c.Id AS CommentId, c.Message, c.UserProfileId AS CommentUserProfileId,
+                       cup.Name as CommentUserName, cup.Id as CommentUserProfileId, cup.Email as CommentUserEmail
+                  FROM Post p
+                       LEFT JOIN UserProfile up ON p.UserProfileId = up.id
+                       LEFT JOIN Comment c on c.PostId = p.id
+                        LEFT JOIN UserProfile cup ON c.UserProfileId = cup.id
                        WHERE up.Id = @Id
               ORDER BY up.DateCreated";
 
@@ -120,7 +120,7 @@ namespace Gifter.Repositories
 
 
                                 Id = id,
-                                Name = DbUtils.GetString(reader, "Name"),
+                                Name = DbUtils.GetString(reader, "UserProfileName"),
                                 Email = DbUtils.GetString(reader, "Email"),
                                 DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
                                 ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
@@ -148,7 +148,7 @@ namespace Gifter.Repositories
                                 UserProfile = new UserProfile()
                                 {
                                     Id = id,
-                                    Name = DbUtils.GetString(reader, "Name"),
+                                    Name = DbUtils.GetString(reader, "UserProfileName"),
                                     Email = DbUtils.GetString(reader, "Email"),
                                     DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
                                     ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
@@ -177,9 +177,9 @@ namespace Gifter.Repositories
                                     UserProfileId = id,
                                     UserProfile = new UserProfile()
                                     {
-                                        Id = DbUtils.GetInt(reader, "CommentUserId"),
+                                        Id = DbUtils.GetInt(reader, "CommentUserProfileId"),
                                         Name = DbUtils.GetString(reader, "CommentUserName"),
-                                        Email = DbUtils.GetString(reader, "Email"),
+                                        Email = DbUtils.GetString(reader, "CommentUserEmail"),
                                         DateCreated = DbUtils.GetDateTime(reader, "UserProfileDateCreated"),
                                         ImageUrl = DbUtils.GetString(reader, "UserProfileImageUrl"),
                                     }
@@ -205,32 +205,29 @@ namespace Gifter.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                       SELECT u.Id, u.Name, u.DateCreated, u.ImageUrl, u.Email,
-                              u.Bio
-                         FROM UserProfile u
-                        WHERE email = @email";
+                          SELECT Id, Name, Email, ImageUrl, Bio, DateCreated FROM UserProfile WHERE Email = @email";
                     cmd.Parameters.AddWithValue("@email", email);
 
-                    UserProfile userProfile = null;
+
+
                     var reader = cmd.ExecuteReader();
 
+                    UserProfile user = null;
                     if (reader.Read())
                     {
-                        userProfile = new UserProfile()
+                        user = new UserProfile()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
                             Name = DbUtils.GetString(reader, "Name"),
                             Email = DbUtils.GetString(reader, "Email"),
                             DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
-                            ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
-                            Bio = DbUtils.GetString(reader, "Bio")
-
+                            ImageUrl = DbUtils.GetString(reader, "ImageUrl")
                         };
                     }
 
                     reader.Close();
 
-                    return userProfile;
+                    return user;
                 }
             }
         }

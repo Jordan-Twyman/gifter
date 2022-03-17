@@ -45,7 +45,7 @@ namespace Gifter.Controllers
             return Ok(user);
         }
         // POST api/<UserProfileController>
-        [HttpGet("GetByEmail")]
+        [HttpGet("/GetByEmail/{email}")]
         public IActionResult GetByEmail(string email)
         {
             var user = _userProfileRepository.GetByEmail(email);
@@ -56,7 +56,7 @@ namespace Gifter.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
+        [HttpPost("Register")]
         public IActionResult Post(UserProfile user)
         {
             _userProfileRepository.Add(user);

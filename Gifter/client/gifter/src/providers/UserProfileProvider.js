@@ -22,18 +22,19 @@ export const UserProfileProvider = (props) => {
     return fetch(`https://localhost:44325/GetUserProfileWithPosts/${id}`).then((res) => res.json());
 };
 const login = (userObject) => {
-  debugger;
-  fetch(`api/userprofile/getbyemail?email=${userObject.email}`)
+  
+  fetch(`https://localhost:44325/GetByEmail/${userObject.email}`)
     .then((r) => r.json())
     .then((userObjFromDB) => {
 
       localStorage.setItem("gifterUser", JSON.stringify(userObjFromDB));
-      setIsLoggedIn(true);
+      setIsLoggedIn(true)
+      ;
     })
 };
 
 const register = (userObject) => {
-  fetch("/api/userprofile", {
+  fetch("https://localhost:44325/Register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

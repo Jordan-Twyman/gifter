@@ -18,7 +18,7 @@ const ApplicationViews = () => {
     <Routes>
        
 
-      <Route path="/" element={<PostList />} />
+      <Route path="/users/:id" element={<PostList />} />
       
 
       <Route path="/posts/add" element={<PostForm />} />

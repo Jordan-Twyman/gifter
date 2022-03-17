@@ -26,7 +26,7 @@ export const PostForm = () => {
     const handleClickSavePost = (e) => {
         e.preventDefault();
 
-        addPost(post).then(() => navigate('/'));
+        addPost(post).then(() => navigate('/users/:id'));
 
         
         
