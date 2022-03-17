@@ -45,11 +45,22 @@ namespace Gifter.Controllers
             return Ok(user);
         }
         // POST api/<UserProfileController>
-        [HttpPost]
-        public IActionResult Post(UserProfile userProfile)
+        [HttpGet("GetByEmail")]
+        public IActionResult GetByEmail(string email)
         {
-            _userProfileRepository.Add(userProfile);
-            return CreatedAtAction("Get", new { id = userProfile.Id }, userProfile);
+            var user = _userProfileRepository.GetByEmail(email);
+            if (email == null || user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
+        [HttpPost]
+        public IActionResult Post(UserProfile user)
+        {
+            _userProfileRepository.Add(user);
+            return CreatedAtAction("GetByEmail", new { email = user.Email }, user);
         }
 
         // PUT api/<UserProfileController>/5

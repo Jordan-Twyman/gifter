@@ -195,6 +195,44 @@ namespace Gifter.Repositories
                     return user;
                 }
             }
+           
+        }
+        public UserProfile GetByEmail(string email)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                       SELECT u.Id, u.Name, u.DateCreated, u.ImageUrl, u.Email,
+                              u.Bio
+                         FROM UserProfile u
+                        WHERE email = @email";
+                    cmd.Parameters.AddWithValue("@email", email);
+
+                    UserProfile userProfile = null;
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        userProfile = new UserProfile()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Name = DbUtils.GetString(reader, "Name"),
+                            Email = DbUtils.GetString(reader, "Email"),
+                            DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
+                            ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
+                            Bio = DbUtils.GetString(reader, "Bio")
+
+                        };
+                    }
+
+                    reader.Close();
+
+                    return userProfile;
+                }
+            }
         }
         public void Add(UserProfile user)
         {

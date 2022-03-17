@@ -71,10 +71,8 @@ namespace Gifter.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var currentUser = UserProfile.CURRENT_USER_PROFILE_ID;
-            var post = _postRepository.GetById(currentUser);
+           
 
-            if (currentUser == post?.UserProfile.Id)
 
             _postRepository.Delete(id);
             return NoContent();
