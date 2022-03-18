@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 export const Register = () => {
@@ -10,11 +11,12 @@ export const Register = () => {
 
   // Import the register function from our context-- we'll use this when they click submit
   const { register } = useContext(UserProfileContext);
-
+  const navigate = useNavigate();
   // This function will run when the user has finished filling out the form and clicks submit
   const submitLoginForm = (e) => {
     e.preventDefault();
-    register({ name, email, bio, imageurl });
+    register({ name, email, bio, imageurl })
+    .then(() => navigate('/'));
   };
 
   return (

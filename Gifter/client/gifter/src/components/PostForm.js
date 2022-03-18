@@ -5,11 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 export const PostForm = () => {
     const {addPost} = useContext(PostContext);
-
+const currentUser = JSON.parse(localStorage.getItem("gifterUser"));
+  const currentUserId = currentUser.id
   
 
     const [post, setPost] = useState({
-        userProfileId: 1,
+        userProfileId: currentUserId,
         title:"", 
         imageUrl:"",
         caption:""        
@@ -26,7 +27,7 @@ export const PostForm = () => {
     const handleClickSavePost = (e) => {
         e.preventDefault();
 
-        addPost(post).then(() => navigate('/users/:id'));
+        addPost(post).then(() => navigate('/'));
 
         
         

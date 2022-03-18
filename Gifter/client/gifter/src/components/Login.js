@@ -1,14 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserProfileContext } from "../providers/UserProfileProvider";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useContext(UserProfileContext);
+  const navigate = useNavigate();
 
   const submitLoginForm = (e) => {
     e.preventDefault();
     login({ email, password });
+    window.location.reload(false);
   };
 
   return (

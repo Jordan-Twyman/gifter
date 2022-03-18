@@ -7,10 +7,10 @@ export const UserProfileProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const getCurrentUser = () => {
     const currentUser = localStorage.getItem("gifterUser");
-
+    
     return currentUser;
   };
-  
+ 
 
   const getAllUserProfiles = () => {
     return fetch("https://localhost:44325/api/UserProfile")
@@ -18,8 +18,8 @@ export const UserProfileProvider = (props) => {
       .then(setUserProfiles);
   };
 
-  const getUser = (id) => {
-    return fetch(`https://localhost:44325/GetUserProfileWithPosts/${id}`).then((res) => res.json());
+  const getUser = (currentUserId) => {
+    return fetch(`https://localhost:44325/GetUserProfileWithPosts/${currentUserId}`).then((res) => res.json());
 };
 const login = (userObject) => {
   
@@ -53,7 +53,7 @@ const logout = () => {
 };
 
   return (
-    <UserProfileContext.Provider value={{ userProfiles,register, login, logout, getAllUserProfiles, getUser }}>
+    <UserProfileContext.Provider value={{ userProfiles,register, login, logout, getAllUserProfiles, getUser, getCurrentUser }}>
       {props.children}
     </UserProfileContext.Provider>
   );

@@ -25,8 +25,8 @@ function App() {
   return (
     <UserProfileProvider>
   <Router>
-    <Login />
-    <Register />
+    <Login setIsLoggedIn={changeState} />
+    <Register setIsLoggedIn={changeState} />
   </Router>
   </UserProfileProvider>
     

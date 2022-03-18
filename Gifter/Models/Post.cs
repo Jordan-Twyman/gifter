@@ -11,7 +11,6 @@ namespace Gifter.Models
         [Required]
         public string Title { get; set; }
 
-        [Required]
         public string ImageUrl { get; set; }
 
         public string Caption { get; set; }

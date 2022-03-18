@@ -11,6 +11,8 @@ const UserPosts = () => {
   const { getUser } = useContext(UserProfileContext);
   const { id } = useParams();
 
+  
+
   useEffect(() => {
     getUser(id).then(setUser);
   }, []);

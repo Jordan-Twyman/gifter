@@ -31,7 +31,6 @@ export const PostProvider = (props) => {
       },
       body: JSON.stringify(post),
     })
-    .then(getAllPosts)
   };
 
   const deletePost = (post) => {
