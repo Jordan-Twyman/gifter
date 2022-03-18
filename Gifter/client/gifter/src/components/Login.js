@@ -11,7 +11,7 @@ export const Login = () => {
   const submitLoginForm = (e) => {
     e.preventDefault();
     login({ email, password });
-    window.location.reload(false);
+    navigate(`/`)
   };
 
   return (

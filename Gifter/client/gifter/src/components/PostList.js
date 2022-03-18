@@ -37,7 +37,7 @@ const PostList = () => {
       <div className="row justify-content-center">
         <div className="col-sm-12 col-lg-6">
           <ListGroup>
-            {user.posts.map((p) => (
+            {user.posts?.map((p) => (
               <Post key={p.id} post={p} />
             ))}
           </ListGroup>
